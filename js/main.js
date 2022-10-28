@@ -2,6 +2,10 @@ const results = document.querySelector('#results');
 const LoadingComponent = document.querySelector('#LoadingComponent');
 const searchForm = document.querySelector('#searchForm');
 const search = document.querySelector('#search');
+const errorMsg = document.querySelector('#errorMsg');
+const welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {
+  keyboard: false
+})
 
 const URL = `https://pokeapi.co/api/v2/pokemon/`;
 
@@ -36,10 +40,13 @@ const showPokemon = (resPokemon) => {
 }
 
 const mostrarImagenPokemon = (spriteData) => {
-  if (spriteData.dream_world.front_default) {
+  if (!spriteData.dream_world.front_default && !spriteData.home.front_default) {
+    return spriteData['official-artwork'].front_default;
+  } else if(!spriteData.home.front_default){
+    return spriteData.home.front_default
+  } else {
     return spriteData.dream_world.front_default;
   }
-  return spriteData.home.front_default;
 }
 
 const mostrarStats = (listaStats) => {
@@ -51,8 +58,12 @@ const mostrarStats = (listaStats) => {
 }
 
 if(localStorage.getItem("pokedesk")) {
+  errorMsg.classList.add('d-none');
   const pokemonLocal = localStorage.getItem("pokedesk");
   showPokemon(JSON.parse(pokemonLocal));
+} else {
+  welcomeModal.show();
+  results.classList.add('d-none');
 }
 
 const pokeSearch = async (search) => {
@@ -60,8 +71,8 @@ const pokeSearch = async (search) => {
   const endpoint = `${URL}${search}`;
   
   try {
+    errorMsg.classList.add('d-none');
     LoadingComponent.classList.remove('d-none');
-    results.classList.add('d-none');
     const response = await fetch(endpoint);
     if(response.ok){
       const data = await response.json();
@@ -74,27 +85,30 @@ const pokeSearch = async (search) => {
         data["sprites"]["other"]
       )
       localStorage.setItem("pokedesk",JSON.stringify(resPokemon))
+      results.classList.remove('d-none');
       showPokemon(resPokemon)
       return resPokemon;
     }
+    if(response.status=404){
+      errorMsg.classList.remove('d-none');
+      results.classList.add('d-none');
+    }
   } catch (error) {
-    console.log(error)
+    console.log(errorMsg);
+    
   } finally {
-    setTimeout(() => {
       LoadingComponent.classList.add('d-none');
-      results.classList.remove('d-none');
-    }, 1000);
   }
   
 }
 
 
-
-const NombreExp = /((^\d{1,4}$)|(^[A-Za-z]{3,})$)/;
+const PatternPokemon = /((^\d{1,4}$)|(^[A-Za-z]{3,})$)/;
 
 searchForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if(search.value.trim()==='')return;
-  if(!NombreExp.test(search.value)) return;
+  if(!PatternPokemon.test(search.value)) return;
   pokeSearch(search.value);
+  search.value = '';
 });
