@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My PokeDesk App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+  <header class="px-4 pt-2 bg-dark d-flex align-items-center justify-content-between flex-column flex-sm-row">
+    <img class="d-block mx-auto mb-4 w-25" src="./img/International_Pokémon_logo.png" alt="pokemon logo">
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center container w-100">
+      <form class="input-group mb-3" id="searchForm">
+        <input type="text" class="form-control" placeholder="Start your search here!"
+          aria-label="Start your search here!" aria-describedby="search" id="search">
+        <button class="btn btn-warning text-white btn-lg" type="submit" id="search"><i class="bi bi-search"></i></button>
+      </form>
+    </div>
+  </header>
+  <!-- Start loading container -->
+  <div id="LoadingComponent" class="d-none">
+    <div id="moving-container">
+      <div id="pokeball-container">
+        <div id="pokeball">
+          <div class="pokeball-details"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End loading container -->
+  <div class="container py-3 d-flex justify-content-center align-items-center">
+    <div id="results" class="card border-danger bg-danger text-white pt-2" style="width: 22rem;">
+    </div>
+  </div>
+  <footer class="px-4 pt-2 bg-dark d-flex align-items-center justify-content-between flex-column flex-sm-row text-white">
+    <div class="container d-flex justify-content-around">
+      <p>Powered by <a href="https://pokeapi.co/" class="text-decoration-none link-danger fw-bold" referrerpolicy="no-referrer">PokeApi</a></p>
+      <p><a href="https://pokeapi.co/" class="text-decoration-none link-light fw-bold">Github <i class="bi bi-github"></i></a></p>
+    </div>
+  </footer>
+  <script src="./js/main.js"></script>
+</body>
+
+</html>
