@@ -107,8 +107,9 @@ const PatternPokemon = /((^\d{1,4}$)|(^[A-Za-z]{3,})$)/;
 
 searchForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  if(search.value.trim()==='')return;
-  if(!PatternPokemon.test(search.value)) return;
-  pokeSearch(search.value);
+  const toSearch = search.value.toLowerCase();
+  if(toSearch.trim()==='')return;
+  if(!PatternPokemon.test(toSearch)) return;
+  pokeSearch(toSearch);
   search.value = '';
 });
