@@ -36,14 +36,13 @@ const showPokemon = (resPokemon) => {
     <a href="./abilities.html" class="card-link text-decoration-none link-light fw-bold">Habilidades <i class="bi bi-stars"></i></a>
   </div>
   `
-
 }
 
 const mostrarImagenPokemon = (spriteData) => {
   if (!spriteData.dream_world.front_default && !spriteData.home.front_default) {
     return spriteData['official-artwork'].front_default;
-  } else if(!spriteData.home.front_default){
-    return spriteData.home.front_default
+  } else if(!spriteData.dream_world.front_default){
+    return spriteData.home.front_default;
   } else {
     return spriteData.dream_world.front_default;
   }
@@ -107,7 +106,8 @@ const PatternPokemon = /((^\d{1,4}$)|(^[A-Za-z]{3,})$)/;
 
 searchForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  const toSearch = search.value.toLowerCase();
+
+  const toSearch = search.value.trim().toLowerCase();
   if(toSearch.trim()==='')return;
   if(!PatternPokemon.test(toSearch)) return;
   pokeSearch(toSearch);
